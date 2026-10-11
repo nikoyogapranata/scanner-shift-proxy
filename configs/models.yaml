@@ -1,0 +1,30 @@
+# The model population (Section 6.2 of the proposal).
+# One entry per model. Every model is trained on vendor B only.
+#
+# DRAFT, to be agreed by both team members before training starts:
+# 12 models = 4 augmentation levels x 3 seeds. The augmentation level controls
+# how strong the intensity augmentation is during training (0 = none, 3 = strong).
+# Varying it is what should make the models differ in how much they degrade.
+
+defaults:
+  epochs: 60            # tune after the first real run
+  batch_size: 16
+  lr: 0.001
+  patch_size: 256       # training crop, in pixels at the common resolution
+  channels: [16, 32, 64, 128, 256]
+  num_res_units: 2
+  norm: instance        # normalisation layer in the U-Net (instance or batch)
+
+models:
+  m01: {seed: 1, aug: 0}
+  m02: {seed: 2, aug: 0}
+  m03: {seed: 3, aug: 0}
+  m04: {seed: 1, aug: 1}
+  m05: {seed: 2, aug: 1}
+  m06: {seed: 3, aug: 1}
+  m07: {seed: 1, aug: 2}
+  m08: {seed: 2, aug: 2}
+  m09: {seed: 3, aug: 2}
+  m10: {seed: 1, aug: 3}
+  m11: {seed: 2, aug: 3}
+  m12: {seed: 3, aug: 3}

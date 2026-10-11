@@ -1,0 +1,18 @@
+# data and model weights never go into git
+data/*
+!data/.gitkeep
+runs/
+*.pt
+*.pth
+# mock and demo outputs
+results_mock/
+results_demo/
+# python
+__pycache__/
+*.egg-info/
+.venv/
+.pytest_cache/
+.ipynb_checkpoints/
+# editors and OS
+.vscode/
+.DS_Store

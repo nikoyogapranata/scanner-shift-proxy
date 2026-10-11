@@ -1,0 +1,8 @@
+# Data handling settings.
+target_spacing_mm: 1.25     # common in-plane resolution all scans are resampled to
+split:
+  seed: 2026
+  n_test: 30                # held-out vendor B patients (as in Zenk et al., 2025)
+  n_val: 15                 # vendor B patients used for model selection only
+training_vendor: B
+real_vendors: [A, C, D]

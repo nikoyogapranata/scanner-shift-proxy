@@ -1,0 +1,17 @@
+# Analysis settings (Subsection 6.6 of the proposal). Freeze together with the severity grid.
+
+decision:
+  supported_at: 0.70      # F >= this  -> supported
+  rejected_below: 0.40    # F <  this  -> not supported
+
+bootstrap_models: 10000   # C5: resamples of the models
+bootstrap_patients: 1000  # C7: resamples of test patients, per model
+permutations: 100000      # C5: one-sided permutation test
+severity_weight_alpha: 0.6666666667   # C6: w_s = alpha^s (Boone et al., 2023)
+
+# C7: a model whose clean vendor-B Dice is below this is treated as a failed
+# training run and excluded. Set it after the first baseline run and BEFORE
+# any shifted evaluation. null = no exclusion.
+min_baseline_dice: null
+
+seed: 20261011

@@ -1,0 +1,25 @@
+# The simulated-shift severity grid (Section 6.3 of the proposal).
+#
+# status: draft   -> values may still change; cross-vendor evaluation is BLOCKED
+# status: frozen  -> values are final; cross-vendor evaluation is allowed
+#
+# The values below are STARTING POINTS, not decisions. Tune them in
+# notebooks/02_severity_grid.ipynb using TRAINING patients only, then set
+# status to frozen and commit. Do not change them after that.
+status: draft
+
+levels: 5   # S, the number of severity levels per corruption
+
+corruptions:
+  bias:         # smooth multiplicative intensity field (TorchIO RandomBiasField, order 3)
+    param: coefficient
+    values: [0.1, 0.2, 0.3, 0.4, 0.5]
+  blur:         # in-plane Gaussian blur, standard deviation in millimetres
+    param: std_mm
+    values: [0.5, 1.0, 1.5, 2.0, 2.5]
+  gamma:        # contrast change, |log gamma|; the sign is fixed per case by the seed
+    param: abs_log_gamma
+    values: [0.1, 0.2, 0.3, 0.4, 0.5]
+  resolution:   # in-plane downsampling factor, then resampling back to the original grid
+    param: downsample_factor
+    values: [1.25, 1.5, 2.0, 2.5, 3.0]
