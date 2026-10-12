@@ -30,6 +30,8 @@ src/ssp/
   results.py            the results table and run records
   analyze.py            final metric F and critical metrics C1 to C7
   status.py             progress table
+  compact.py            keep only the ED and ES frames: about 70 GB down to a few GB
+  fetch.py              on Colab: build the compact copy once, keep it on Google Drive
   mock.py               small fake dataset for testing the pipeline
   synth.py              made-up results for testing the analysis
 notebooks/
@@ -41,7 +43,7 @@ results/
   runs/                 one JSON record per model (committed)
   analysis/             report, summary, per-model table, scatter plot
 docs/                   the methodology subsection, the freeze checklist
-tests/                  22 tests; run with `python -m pytest`
+tests/                  23 tests; run with `python -m pytest`
 ```
 
 Not in git: `data/` (datasets), `runs/` (model weights), `results_mock/`, `results_demo/`.
@@ -125,7 +127,12 @@ it contains, somewhere below it:
 - a metadata CSV with a patient code, a vendor letter, and `ED` and `ES` columns;
 - per patient, `<code>_sa.nii.gz` and `<code>_sa_gt.nii.gz`.
 
-That is the layout of the official M&Ms release. **Run
+That is the layout of the official M&Ms release, and of the compact copy that
+`ssp.compact` makes from it (only the ED and ES frames, so ED = 0 and ES = 1).
+On Colab the runner builds the compact copy once and keeps it on Google Drive
+as `ssp_data/mnms_compact.tar`. To give your teammate access, share the
+`ssp_data` folder with her and have her add a shortcut to it in her own
+"My Drive", so the same path works in her notebooks. **Run
 `notebooks/01_dataset_audit.ipynb` on your copy first.** If the copy is laid
 out differently, `discover_cases` in `src/ssp/data.py` is the one function to adapt.
 
