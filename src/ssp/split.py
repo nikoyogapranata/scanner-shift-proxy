@@ -55,9 +55,16 @@ def main() -> None:
     cfg = config.data()
     root = paths.data_root(args.data_root)
     cases = data.discover_cases(root)
+    print("Checking that every label file has annotations on ED and ES ...")
+    ok = cases[cases["labelled"]].apply(data.has_both_phases_labelled, axis=1)
+    bad = sorted(cases.loc[ok[~ok].index, "patient"])
+    cases.loc[ok[~ok].index, "labelled"] = False
+    if bad:
+        print(f"  {len(bad)} patient(s) have a label file without annotations on ED and ES; not used: {', '.join(bad)}")
     split = make_split(cases, cfg["split"]["seed"], args.n_test or cfg["split"]["n_test"],
                        args.n_val or cfg["split"]["n_val"], cfg["training_vendor"], cfg["real_vendors"])
     split["mock"] = paths.is_mock(root)
+    split["excluded_unlabelled"] = bad
     with open(out, "w", encoding="utf-8") as fh:
         json.dump(split, fh, indent=1)
     print(f"Wrote {out}")

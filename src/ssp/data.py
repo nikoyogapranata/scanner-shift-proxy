@@ -73,7 +73,15 @@ def load_volume(case: pd.Series, phase: str) -> tuple[np.ndarray, np.ndarray, tu
     lab = nib.load(case["label"])
     spacing = tuple(float(z) for z in img.header.get_zooms()[:3])
     image = np.asarray(img.dataobj[..., frame], dtype=np.float32)
-    label = np.asarray(lab.dataobj[..., frame]).astype(np.uint8)
+    label = np.rint(np.asarray(lab.dataobj[..., frame])).astype(np.uint8)   # labels may be stored as floats
     if image.shape != label.shape:
         raise ValueError(f"{case['patient']} {phase}: image {image.shape} and label {label.shape} differ")
     return image, label, spacing
+
+
+def has_both_phases_labelled(case: pd.Series) -> bool:
+    """True if the label file has annotations on both the ED and the ES frame."""
+    lab = nib.load(case["label"])
+    if len(lab.shape) < 4:
+        return False
+    return all(np.asarray(lab.dataobj[..., int(case[c])]).any() for c in ("ed", "es"))
